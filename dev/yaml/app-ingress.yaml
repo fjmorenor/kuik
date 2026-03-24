@@ -1,0 +1,22 @@
+# app-ingress.yaml
+# Configura el Load Balancer de Google Cloud para exponer la app al mundo.
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: web-ingress
+  annotations:
+    # Instrucción para GKE: "Crea un HTTP Load Balancer de Google".
+    kubernetes.io/ingress.class: gce
+    # Usa una IP estática de GCP llamada 'ip-web-app' (debes crearla antes o quitar esta línea).
+    # kubernetes.io/ingress.global-static-ip-name: ip-web-app
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: web-app-svc # Envía el tráfico exterior al servicio interno.
+            port:
+              number: 80

@@ -1,0 +1,18 @@
+controller:
+  serviceType: LoadBalancer
+  resources:
+    requests:
+      cpu: "500m"
+      memory: "512Mi"
+    limits:
+      cpu: "1000m"
+      memory: "1Gi"
+  installPlugins:
+    - kubernetes:latest
+    - workflow-aggregator:latest
+    - git:latest
+    - google-oauth-plugin:latest
+    - google-kubernetes-engine:latest
+persistence:
+  enabled: true
+  size: 10Gi

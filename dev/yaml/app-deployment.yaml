@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web-app
+  namespace: default
+  labels:
+    app: web-app
+spec:
+  replicas: 1  # Mantenemos 1 por la falta de recursos físicos en la zona
+  selector:
+    matchLabels:
+      app: web-app
+  template:
+    metadata:
+      labels:
+        app: web-app
+    spec:
+      containers:
+      - name: web  # Nombre exacto que detectamos con kubectl
+        image: europe-west1-docker.pkg.dev/kuik-dev-002/kuik-repo/web-app:v-error-zafarraya
+        ports:
+        - containerPort: 80
+        imagePullPolicy: Always  # Obliga a descargar la nueva versión de Zafarraya
+        resources:
+          requests:
+            memory: "10Mi"
+            cpu: "10m"
+          limits:
+            memory: "50Mi"
+            cpu: "50m"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: web-app-svc
+  namespace: default
+spec:
+  type: NodePort  # O LoadBalancer, según tu configuración de Ingress
+  selector:
+    app: web-app
+  ports:
+  - port: 80
+    targetPort: 80
+    protocol: TCP

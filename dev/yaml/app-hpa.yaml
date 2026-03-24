@@ -1,0 +1,20 @@
+# app-hpa.yaml
+# Escala el número de Pods automáticamente según el consumo de CPU.
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: web-app-hpa
+spec:
+  scaleTargetRef:    # El objetivo a escalar.
+    apiVersion: apps/v1
+    kind: Deployment
+    name: web-app
+  minReplicas: 2     # Mínimo de Pods (ahorro de costes).
+  maxReplicas: 10    # Máximo de Pods (límite de cuota/presupuesto).
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 60 # Si la CPU media pasa del 60%, crea más Pods.
