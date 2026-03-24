@@ -1,26 +1,26 @@
-Proyecto landing zone y gke - kuik
-este es el repo con todo lo que hemos hecho en el lab del viernes para que funcione el pipeline.
+Project landing zone and gke - kuik
+this is the repo with all the stuff we did in the friday lab to make the pipeline work.
 
-Que hay en las carpetas:
-host: aqui estan los archivos de terraform para la red y la vpc shared que mandan los de sistemas.
+What is in the folders:
+host: here are the terraform files for the network and the shared vpc that the sysadmins send.
 
-dev: esta el cluster de gke-kuik-dev-002 y la config del proyecto de desarrollo.
+dev: here is the gke-kuik-dev-002 cluster and the config for the development project.
 
-yaml: los archivos de kubernetes (deployment, service y el ingress).
+yaml: the kubernetes files (deployment, service and the ingress).
 
-functions: el codigo de python para que gemini lea los logs cuando algo peta en el cluster.
+functions: the python code for gemini to read logs when something fails in the cluster.
 
-.github: los workflows para que al hacer push se suba la imagen a google cloud sola.
+.github: the workflows so when you push it uploads the image to google cloud by itself.
 
-Como hacerlo funcionar:
-primero hay que hacer terraform apply en host y luego en dev (tarda como 15 min).
+How to make it work:
+first you have to do terraform apply in host and then in dev (takes about 15 min).
 
-conectar el kubectl con el comando de gcloud que nos dieron.
+connect the kubectl with the gcloud command they gave us.
 
-subir los cambios a github para que se active la action.
+push the changes to github to activate the action.
 
-mirar la ip del ingress para ver la web (la mia es 136.110.169.2 pero puede cambiar si borras el ingress).
+check the ingress ip to see the web (mine is 136.110.169.2 but it can change if you delete the ingress).
 
-Notas:
-si un pod se queda en pending es por que google no tiene mas cpus e2-medium en belgica (europe-west1-b), hay que bajar las replicas a 1.
-el dockerfile usa nginx para servir el index.html que esta en la raiz.
+Notes:
+if a pod stays in pending is because google has no more e2-medium cpus in belgium (europe-west1-b), you have to lower the replicas to 1.
+the dockerfile uses nginx to serve the index.html that is in the root.
